@@ -1,0 +1,654 @@
+{
+  "schema": "gene-v1-source-provenance-1",
+  "recorded": "2026-10-31",
+  "source": "snapshot of the in-use uniform EP/ETP annotation deployment",
+  "upstream_repository": "https://github.com/Gaius-Augustus/BRAKER4",
+  "frontend_version_header": "0.5.0-beta",
+  "upstream_git_commit": null,
+  "upstream_git_commit_note": "No git metadata in deployed snapshot; do not infer a commit from a current upstream branch.",
+  "backend_image_reference": "teambraker/braker3:v3.1.1",
+  "original_image_digest": null,
+  "note": "No private site paths or research inputs are distributed. Original hashes refer to deployment source; packaged hashes identify redistributed bytes. Core orchestration is adapted, not byte-identical.",
+  "files": [
+    {
+      "path": "pipeline/filter_engine.py",
+      "original_sha256": "36a4d50a16099d1493f0db705be504652bce8eaa08c6943fcb328740371745a2",
+      "original_bytes": 8737,
+      "packaged_sha256": "a62fb22ed20bcfd4b701fabae638505a596b5db870c188722b21bc3e1922a63d",
+      "packaged_bytes": 18121,
+      "adaptation": "portable orchestrator/runtime and English reports"
+    },
+    {
+      "path": "pipeline/pipeline.py",
+      "original_sha256": "46c0e8c8208ba144c244fd3ef9a8df5c36760c9d18f3d3046643884c2ed72f62",
+      "original_bytes": 21117,
+      "packaged_sha256": "95be099aa148acfb1e911c34682d7d13a402ab0b60c5d49112226ecf096cb2fd",
+      "packaged_bytes": 30430,
+      "adaptation": "portable orchestrator/runtime and English reports"
+    },
+    {
+      "path": "workflow/LICENSE",
+      "original_sha256": "83c240d00055578565cedd37b692a20e1d763c4cd5f2e8a38fddf33512790d88",
+      "original_bytes": 1071,
+      "packaged_sha256": "83c240d00055578565cedd37b692a20e1d763c4cd5f2e8a38fddf33512790d88",
+      "packaged_bytes": 1071,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_predict/run_augustus_hints.smk",
+      "original_sha256": "316f0a784adef66eb19756b8f59b1eb14d782bd2d3aa363535713a4c5f7e933c",
+      "original_bytes": 12890,
+      "packaged_sha256": "0da7d07d8f0b3bb8e170282f8b55708f7b46b7e53559c041e06b4b755deea0a3",
+      "packaged_bytes": 12891,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_predict/run_augustus_hints_iter2.smk",
+      "original_sha256": "8954e6fc7be9018d338c66b9e62f0b3e32efa4d381d24d6ce30963aba607994d",
+      "original_bytes": 6298,
+      "packaged_sha256": "c3c0d3b17a236fe557b0d7a862cba89585372fc6fd4b26f3395c9f3d60c68479",
+      "packaged_bytes": 6299,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_training/compute_flanking_region.smk",
+      "original_sha256": "ac9e37923a3a936fb8cb4590f15624888adea02c55fd6d3da8ddfd110a26469e",
+      "original_bytes": 2387,
+      "packaged_sha256": "e45fdd6757899c207cb18ebadde5d448063eabfad4a0dc6407faddffd257b8a2",
+      "packaged_bytes": 2388,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_training/convert_to_genbank.smk",
+      "original_sha256": "c66c73a03431d60683a23a97cadf06990b860deff41c7bdb9fdc90a61d0d9a20",
+      "original_bytes": 3747,
+      "packaged_sha256": "b33d2d56f565512cfe20248ee9019e0710f87632a398fc1acd902c07e93606e9",
+      "packaged_bytes": 3748,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_training/copy_augustus_config.smk",
+      "original_sha256": "245cb77b762a045f382dc7ff569046f88ba90cdf932844e9a5bcac48422d5aba",
+      "original_bytes": 5839,
+      "packaged_sha256": "93d9054ba6a49c222ee5e238e1e1cf5d1ace7e12afb86d525dcd0f18e1dae97a",
+      "packaged_bytes": 5840,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_training/copy_hints_files.smk",
+      "original_sha256": "f51379a5cad1df73d773e8cf72778281980f53f45518702294f670708773b0b2",
+      "original_bytes": 1949,
+      "packaged_sha256": "dd93dba7cf1656c63f45890b9fb079897516c6e21a7fcaffd2c284d8d85b986c",
+      "packaged_bytes": 1950,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_training/create_new_species.smk",
+      "original_sha256": "b2114616852256192d81f82ea33fdd9fc86cd89a7a8ebdb36cd8d8d1b8e4550d",
+      "original_bytes": 3301,
+      "packaged_sha256": "4a6bfe80cc571e4180f2c2adf30057d73afe3215e2ca90e888825ec1b121ac08",
+      "packaged_bytes": 3302,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_training/downsample_training_genes.smk",
+      "original_sha256": "736efe6654b2188835a89fe795ae5ffceec6f9497f8b215f5624977d4fcd0a52",
+      "original_bytes": 8084,
+      "packaged_sha256": "656005f4ec6eeb2060e788641224b7ba33e9fe66c3099b61ffb7ef89fa90801b",
+      "packaged_bytes": 8085,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_training/filter_genes_etraining.smk",
+      "original_sha256": "37226896aeff7e73ee3384ea44af11d9f242b1b4d292e60e078fe560c03d972e",
+      "original_bytes": 6407,
+      "packaged_sha256": "32b97e471817678795c5652c187d452bc8eab7e4a1b0bcac07ce9ccc8174faf5",
+      "packaged_bytes": 6408,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_training/optimize_augustus.smk",
+      "original_sha256": "6c465ace5ec78346fe638966b060d97e217bb4fb8d418ea0d6127cbd52c3812f",
+      "original_bytes": 18608,
+      "packaged_sha256": "9ab22662a761c3ffb4ab3c6982cae599ecedaffaffafcb1c367a0e02a5d7f1b1",
+      "packaged_bytes": 18609,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_training/split_training_set.smk",
+      "original_sha256": "b954a8ef4c9ab57ce64ca8b20763217ecc60c73bfd1c8950621887fd30f5be4f",
+      "original_bytes": 4035,
+      "packaged_sha256": "14d3d36af7558243f57bd8ec8f45581ee0dc45c1045859151bb960cb4753f4ec",
+      "packaged_bytes": 4036,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/augustus_training/train_augustus.smk",
+      "original_sha256": "e25e381d423b9a26eb6cf4dbf8c250b1153a922c1aa4571d62463bbe1c84490c",
+      "original_bytes": 8906,
+      "packaged_sha256": "2ac30e027cc419b3292bcf37c3bd32bf36b4484ddaacce2f9c26883afca7a854",
+      "packaged_bytes": 8907,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/common.smk",
+      "original_sha256": "960ab789432f37529716a5cdbf8245e91f6722c47b3764a218163c8959eb5805",
+      "original_bytes": 25101,
+      "packaged_sha256": "94e4e4d5fbb97e7b43388866552ddae6fd480c1af300f57eb693ea45f9d34822",
+      "packaged_bytes": 25102,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/bam2hints.smk",
+      "original_sha256": "97c425a0cefe1a241028efed2f197cdf0429c298795b1a3e0082d3d737206789",
+      "original_bytes": 1894,
+      "packaged_sha256": "f6d7dbe5b2231265aeaade1f5385563859ade68420b97af2dcb449894cfdc246",
+      "packaged_bytes": 1895,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/check_bam_sorted.smk",
+      "original_sha256": "fa1444d6be6db7fa357caa893068b19265fb3b3e9f0e540695d0fe301ea6865b",
+      "original_bytes": 3301,
+      "packaged_sha256": "7253ae14755670793e44c4ae5fea4e05f61274834d2109cc07a58bedb228b94b",
+      "packaged_bytes": 3302,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/filter_genemark.smk",
+      "original_sha256": "75b7f37d11dd600f833a18409d4d173304aa6562ba562a9f78d1c5e64b1ecbf0",
+      "original_bytes": 5762,
+      "packaged_sha256": "1b62788174ffd905f55534ec6ed567cb3afc502f966ea35baf3179469d7b7476",
+      "packaged_bytes": 5763,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/filter_introns.smk",
+      "original_sha256": "1adbf82bb1b30dea1a720f20a8805c5e7d9a57bbb88fea76e00a7bc37607811f",
+      "original_bytes": 1808,
+      "packaged_sha256": "a1f72f6dac6e9007b0063d46aec2ec676dfe96ff1a739c5108d0037769a7672c",
+      "packaged_bytes": 1809,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/join_hints.smk",
+      "original_sha256": "685ae9b63bb100e014eb2c8e793b56cf8476169c016aebec0a24c984bcac0171",
+      "original_bytes": 3711,
+      "packaged_sha256": "1d351b26ffa61e5e5ed4c5960ac72954f240e999fca856222af72e36074c5099",
+      "packaged_bytes": 3712,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/merge_dual_etp.smk",
+      "original_sha256": "7037b46dfa201d561fe5a4f4c2d095d65043f12bf3c450265e4f34a713d72c4b",
+      "original_bytes": 4962,
+      "packaged_sha256": "b3bff6a8359baaef6e646faba3725e937bcc6281ba5ab7df67e8529f77519ef6",
+      "packaged_bytes": 4963,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/prepare_genemark_hints_ep.smk",
+      "original_sha256": "404c14ea4c8ffc848239fdbcf10f214a69befc83d0d6584e985ee3299dffd16b",
+      "original_bytes": 4828,
+      "packaged_sha256": "f9b5724425dfb182f67f83f50a633f16d0de0ea7da056d651c57748959b8685a",
+      "packaged_bytes": 4829,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/run_genemark_ep.smk",
+      "original_sha256": "3d46a3752b40058125b56f28dad76457b976fc4950f9b3bef5abe22baa18c5db",
+      "original_bytes": 4948,
+      "packaged_sha256": "03362c8fec58a89c78d7c274cffbae4185f684fed38f052127ebf95ce77d3a12",
+      "packaged_bytes": 4949,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/run_genemark_es.smk",
+      "original_sha256": "fe2c9157869aaf14263e0465d4eec0708506d9d4e5b4f8aa2c46d36c75c1541d",
+      "original_bytes": 4847,
+      "packaged_sha256": "1231cb63619cb774bbd4428a5a6463271f8ee9fb68590d2b0f0abb447b23dcdc",
+      "packaged_bytes": 4848,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/run_genemark_et.smk",
+      "original_sha256": "bae7c177cd043cf5f38d209ae09c4b16221969b057dd9f4b85701c7b983823dd",
+      "original_bytes": 4204,
+      "packaged_sha256": "7e44134913891422b6669552c253c330ee9f700f4cc04ca8eb42d16e9dbb5068",
+      "packaged_bytes": 4205,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/run_genemark_etp.smk",
+      "original_sha256": "6fe59b5ec967bb6253fb466fbe7dd8f0fafabf7a3d44ce7cc1a0f024159c4425",
+      "original_bytes": 14456,
+      "packaged_sha256": "637068ac5cc21cb0731eba2f0439a3cf06168a740fe030775fa243d29c46d7be",
+      "packaged_bytes": 14457,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/run_genemark_etp_isoseq.smk",
+      "original_sha256": "b1d35bb3a2360bda00fa939986253aa7d56136f8563e2726755e2b80a9ed54f2",
+      "original_bytes": 10237,
+      "packaged_sha256": "1d9a114424c5bbd50812049d7aee24b407ba96e9bab3b6c6bbf2633ea468eab2",
+      "packaged_bytes": 10238,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/run_prothint.smk",
+      "original_sha256": "eacdca00a42ec480ca7154a9887a68331b6b0b253ddcc78890b944eb3d24ea08",
+      "original_bytes": 3897,
+      "packaged_sha256": "da6b56c79f38a235546899fbc5aea5fec5a318b58235208e0f569fda40169af7",
+      "packaged_bytes": 3898,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/genemark/run_prothint_iter2.smk",
+      "original_sha256": "8678bcc26562cbd0b7df97bc48389e08e9a5336048c53d851b7b6c4dd440f09f",
+      "original_bytes": 7251,
+      "packaged_sha256": "b1dcb43199fb4f621718b34092754ea3ec8addfb0812f9498f78e1a2c31a0530",
+      "packaged_bytes": 7252,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/ncrna/merge_ncrna.smk",
+      "original_sha256": "253feef8d54e846eb61f4422e5ba36d11b239ac9b3a5b9abacac6c4c25b29133",
+      "original_bytes": 5363,
+      "packaged_sha256": "b8eb8f334c33bf47072f6bf2257f46cedece437498cdb9a5c790733a8c1adf7c",
+      "packaged_bytes": 5364,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/ncrna/run_barrnap.smk",
+      "original_sha256": "f848c89b45a27e27a976a255cc2788bfc99106656ac578bd3d343e55fa268874",
+      "original_bytes": 6052,
+      "packaged_sha256": "6d816c68d39fa80c64557b506631434f5cbc2a7fe1d2d50515b8c9c742be72c9",
+      "packaged_bytes": 6053,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/ncrna/run_feelnc.smk",
+      "original_sha256": "97a23469c26fe5ee25bdcb312e97e5b1632dd356681d4ea01a52c5e3828e805c",
+      "original_bytes": 6913,
+      "packaged_sha256": "aca1a1ed2d6b33a280315c4fdf9dec50db205bedca4ee73124b2ca7eb7433733",
+      "packaged_bytes": 6914,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/ncrna/run_infernal.smk",
+      "original_sha256": "42357ada1ac269ac57118c916b67b744073d23a61d8783f4036f89f785db16e9",
+      "original_bytes": 4432,
+      "packaged_sha256": "ce66f9439304b70bbc6cf9de988e8b31ad6ba07dcbf08d14cfce651426a446d5",
+      "packaged_bytes": 4433,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/ncrna/run_trnascan.smk",
+      "original_sha256": "27729d81b73a62b15f94b7635e62ee1f72572bd7d09c1a59dcc2b82a77fcde09",
+      "original_bytes": 2833,
+      "packaged_sha256": "6e3a239594b18fbe38cd0ec44a47ac87cdf5362bad7cc7a60c34922e3a2798da",
+      "packaged_bytes": 2834,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/add_utr.smk",
+      "original_sha256": "249afa977433f5db7284bf6f0cfe298c0fda4908e415ea6aedfe2703a2162cf2",
+      "original_bytes": 5665,
+      "packaged_sha256": "7960a3da921450c6b2da14c2354cf84900202464c4dabb717d4fa1e63b29ff82",
+      "packaged_bytes": 5666,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/best_by_compleasm.smk",
+      "original_sha256": "ac3291d10a9a785555a5f2deeacee1bb8cb3994cd55c284c910a0a13b7ccbd0d",
+      "original_bytes": 10617,
+      "packaged_sha256": "81a4a6bd4e034d3e8ce4a1995424d8d1d967a830e50c390640e2c16b845f8094",
+      "packaged_bytes": 10618,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/both_agree_rescue.smk",
+      "original_sha256": "c0c932520221e7f67089c7cdad6763814cd549f831cf2fc77389a18e81481650",
+      "original_bytes": 2606,
+      "packaged_sha256": "406ea7699fec787c37fe16b2ad4068b7d4b3348a267e7c854aead656ecee0980",
+      "packaged_bytes": 2607,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/collect_results.smk",
+      "original_sha256": "de7f2545531a0d69295ec79fe7cc5c9a6f1671e3e43391bf8f5fa814dcee8421",
+      "original_bytes": 15291,
+      "packaged_sha256": "fb6625a3cb9a97bc6aeb2e9461bdf62a4b2b6a09916963c733f664660dfc62c3",
+      "packaged_bytes": 15292,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/convert_to_gff3.smk",
+      "original_sha256": "03ae7dbaed0112481f459a575323da9cd08f997063fdb99c0bd15df882f5f662",
+      "original_bytes": 4008,
+      "packaged_sha256": "cf7619b568b5a46d7626ad9724727c5731863597996e16dcf564cdc914be2646",
+      "packaged_bytes": 4009,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/extract_hc_training_genes.smk",
+      "original_sha256": "6dd42b389937cb9b569c5eb1dc14b37acb0529e3c62dc075e2ed71641c99e3dc",
+      "original_bytes": 6907,
+      "packaged_sha256": "d0dbbd6da4677a3c0bdf26b8b43dfa53ecc6d02d8d7eaa7f24bf23946dcadfb1",
+      "packaged_bytes": 6908,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/filter_stop_codons.smk",
+      "original_sha256": "42ea397b1158362fa145f5e1bb3799e8f1d521fe5c30d9a31c9acdddde4c9ded",
+      "original_bytes": 11116,
+      "packaged_sha256": "593d52a59e742d2c41ab641427e823ac713db9acc508c708026eba75a772bea7",
+      "packaged_bytes": 11117,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/fix_in_frame_stop_codons.smk",
+      "original_sha256": "990609841c6dc0c35bf17b36d4e3c723fc2a6837f8de900275738aefa993a8e2",
+      "original_bytes": 10132,
+      "packaged_sha256": "2f4072a4e353c53e7765d17068724e8c8a8aa6b7da36192378f072a5cbeaeea7",
+      "packaged_bytes": 10133,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/merge_hints.smk",
+      "original_sha256": "16c60377d6236f55bd25981aa1a48b290af4a1b4b3eb68abc1784b112bdde3fc",
+      "original_bytes": 8711,
+      "packaged_sha256": "8f121a8a830e8c998e25239f278cf14cd4309f1d79d6357022070796488850e1",
+      "packaged_bytes": 8712,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/normalize_cds.smk",
+      "original_sha256": "e1ad81b13dcfa0a9fce07dd9126298a676b621c918b91510a12608be0e994cf0",
+      "original_bytes": 1757,
+      "packaged_sha256": "51ca0bd46bef27a7fbb33666d80a1e070bbef479b4b2026ad9f8c347d27356c5",
+      "packaged_bytes": 1758,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/postprocess_augustus.smk",
+      "original_sha256": "a26261232ffb210fb4a5756c2fab37257860839433ec17201f4098935bc6def4",
+      "original_bytes": 20419,
+      "packaged_sha256": "6b58ae5ed2bc76186b030a635befc362af51ddd63779781b85761ed2aeb9cfaf",
+      "packaged_bytes": 20425,
+      "adaptation": "relative helper path corrected; LF text normalization"
+    },
+    {
+      "path": "workflow/rules/postprocessing/redundancy_removal.smk",
+      "original_sha256": "4bf262636ffd2c8f809998d8b082ff320887e573d983f34f70fc15aebdf75e07",
+      "original_bytes": 7626,
+      "packaged_sha256": "56de4fea35b46037cfb32ab8608dc6f5edb83b8c96d43d4a71bd5ea93e84bd74",
+      "packaged_bytes": 7627,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/run_fantasia.smk",
+      "original_sha256": "ea9dc5b672593b06f5ee3fdc7fd2b99673d350c2af89d3e43cc54d791665871d",
+      "original_bytes": 13642,
+      "packaged_sha256": "d90a58f05c9eccd06655c275aaa3ffd66ec26a91afe8903170a983922d98da00",
+      "packaged_bytes": 13643,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/postprocessing/run_tsebra.smk",
+      "original_sha256": "180c1731ef87b388117a421b0374f134a890c984127431e9157dea865068027f",
+      "original_bytes": 17725,
+      "packaged_sha256": "5c1bba8f1657a442aba66438be32cd1742f9f5c9972776ae2dfa100c4fb31d00",
+      "packaged_bytes": 17726,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/preprocessing/check_isoseq_bam.smk",
+      "original_sha256": "b10af998c21a1bf1fd4c25d8bf342e8b63c600148f5ec7193f25f0a7b7356ee1",
+      "original_bytes": 3135,
+      "packaged_sha256": "d93324f80e4906523ffaf19afb41aa56c47efd11915008c55a2c20f5b208d4d5",
+      "packaged_bytes": 3136,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/preprocessing/download_sra.smk",
+      "original_sha256": "44b77bd93ee2f5bad8ca284f5e3c6fe045a32aaa4e37f1260afe175ba863e049",
+      "original_bytes": 3556,
+      "packaged_sha256": "4deb8d0afb0664927b15062750d6a796a67997f7a1af520277c9cea3cea4621a",
+      "packaged_bytes": 3557,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/preprocessing/hisat2_align.smk",
+      "original_sha256": "21242845e916c02af0050d3be0bd79c4e4239996bb1631dc434b60d03219d549",
+      "original_bytes": 7184,
+      "packaged_sha256": "5b57ff3fe78da9424dcf731a6680526826d75a5f52e3d727a0df5ea83804fd6c",
+      "packaged_bytes": 7185,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/preprocessing/merge_proteins.smk",
+      "original_sha256": "5c076ee3efa7f6573a26896da7cd6b02ff3f3d3ec354dc2fe6c515620523c9f0",
+      "original_bytes": 1132,
+      "packaged_sha256": "e4a034355c9897c4e6d7b87e67a30e080d9eada6b8a335869b1fe4ce17d88b5f",
+      "packaged_bytes": 1133,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/preprocessing/minimap2_isoseq_align.smk",
+      "original_sha256": "1c5e7bd5497d0d72dc0981835f8143f830f0eca3fc9bd46a6600ef52ff4b5ab6",
+      "original_bytes": 4442,
+      "packaged_sha256": "fb194239eed7beeac6944cf53d149e25604568089d45ceb2cde40fef91214fe5",
+      "packaged_bytes": 4443,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/preprocessing/prepare_genome.smk",
+      "original_sha256": "bd9c50c7ca18bb850ec4192be224c6cf02e2e5bab4b51d3b610331f9d42abaa1",
+      "original_bytes": 3997,
+      "packaged_sha256": "1b66f5cf924729f161eedc8dd86f3f059aa4420bce862970f1397c94eccacfb1",
+      "packaged_bytes": 3998,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/preprocessing/run_masking.smk",
+      "original_sha256": "71f3c29ae1c44f874be5fe3a00af107f9d6b87e0a629429b362b314ef44bc7a1",
+      "original_bytes": 10128,
+      "packaged_sha256": "bb32868f5ab1c9f3f8e8a8d080dbca492cbcdc9a96468679b747c0dba2eded9a",
+      "packaged_bytes": 10129,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/preprocessing/run_minisplice.smk",
+      "original_sha256": "8efb41ff1fa8418246356eb67050b31504f7b99c6a735537e407f2a891031864",
+      "original_bytes": 2316,
+      "packaged_sha256": "e9cbb1c49ef219ae01f3e8fe9c9bd80b7bbeff01f4570209be6b8eeef03095bb",
+      "packaged_bytes": 2317,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/preprocessing/run_red_masking.smk",
+      "original_sha256": "78daed4ac63170ffcf149a7af74670ae6195958ddd36c51482e8c3a80318b7c6",
+      "original_bytes": 3411,
+      "packaged_sha256": "e5c09acd913b351d4d0af3e54c48916005dfe1b5fe63276227a23463b34480ac",
+      "packaged_bytes": 3412,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/preprocessing/run_varus.smk",
+      "original_sha256": "d92f710def296f2ddef2d5efa564e68ab2fe576d7e45320759475dcdbc2fd2f2",
+      "original_bytes": 2988,
+      "packaged_sha256": "fcea05ccd4f9244bb1e49d02007014ed50f2c7e768a7604905e5f60db30abe70",
+      "packaged_bytes": 2989,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/quality_control/cleanup.smk",
+      "original_sha256": "8e9f9665ad024de6f7e607bdff59842740e37d369ce4005a8ace204252e77f03",
+      "original_bytes": 2188,
+      "packaged_sha256": "4c6fb6ea36442339f025301caecea9738ab34b5158af2845085296158cb9cd8c",
+      "packaged_bytes": 2189,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/quality_control/gene_support.smk",
+      "original_sha256": "12f4a0dfaa8185df84f41a1405c0a331405f1c8353d00253eeafa90656f016a1",
+      "original_bytes": 1686,
+      "packaged_sha256": "1cf51eef919d9e58391dbda04b033043ca5e5634d6cb2e5100d194d0d222e443",
+      "packaged_bytes": 1687,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/quality_control/run_busco.smk",
+      "original_sha256": "b43aa64c622d12b347362ce32adb50aef08c6b14cde47a3cacf88aaec7d3b80a",
+      "original_bytes": 9455,
+      "packaged_sha256": "476805668df7eedacd062be7fbef34db93f6786557069b8554526ce56cd33609",
+      "packaged_bytes": 9456,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/quality_control/run_compleasm.smk",
+      "original_sha256": "10bee3d11eae6d74036cd1bfd6b9ba0364387a82acb837c7b25d004178379221",
+      "original_bytes": 5918,
+      "packaged_sha256": "2edae16f68fe471a87ede8662b94f74274272f84bf7b12dbfbcc6099e7fa8bce",
+      "packaged_bytes": 5919,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/quality_control/run_gffcompare.smk",
+      "original_sha256": "575350f472efaa6c2fb98781681bc10cd7b35893489daceebf23b9300e52f5dc",
+      "original_bytes": 3794,
+      "packaged_sha256": "04ae2cf984c8392e676b3b5f666c54ebb7929157a7abcdce0ed083d530cf9ce2",
+      "packaged_bytes": 3795,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/rules/quality_control/run_omark.smk",
+      "original_sha256": "546ad5494b17e9529ef7874002308554698d672d3065b8f795c518c74a388b5c",
+      "original_bytes": 8229,
+      "packaged_sha256": "91990619e34963db20ef2735226a2771227531e54042a3e294bd0b067809c2d0",
+      "packaged_bytes": 8230,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/analyze_hint_support.py",
+      "original_sha256": "a61f8bbdddc999d5f8da377331156c26e4bdd6be2e10748435bfa96f0fc4a012",
+      "original_bytes": 13561,
+      "packaged_sha256": "efc1632246fde7aa0aac213d465fea54a2678f62810f45c654e35f2e8dc60394",
+      "packaged_bytes": 13562,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/best_by_compleasm.py",
+      "original_sha256": "4030a0be90f83f2418f8c98f89665b73964fe00a68287d266a4b66be0314e505",
+      "original_bytes": 31559,
+      "packaged_sha256": "b0131257422c5525d08793e37775702dc3556d8a301c96bc7e60af4401f33fad",
+      "packaged_bytes": 31561,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/both_agree_rescue.py",
+      "original_sha256": "d99b792b20a285fe5251445fd374f03dc18488fd46cc02c7e0c147d4ae64232f",
+      "original_bytes": 11786,
+      "packaged_sha256": "83edd66b75d8d093bed7aa329b0ca6344ec5593b6ca83b9f3f1dfd7da5bda10d",
+      "packaged_bytes": 11787,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/compleasm_to_hints.py",
+      "original_sha256": "145176f2b444b6985917f6216c030a0ee1b8dc854fd08b52fe95bfbaeecfb380",
+      "original_bytes": 9589,
+      "packaged_sha256": "1545ef880bad0e4da5325630fcaeb33ec3ab12c30219ffee2a2c887acaa0304a",
+      "packaged_bytes": 9590,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/completeness_plot.py",
+      "original_sha256": "48a1aa8a948e562eccf5f54fc25cbc6f91df57f347a8182e59912cd2ff3cb139",
+      "original_bytes": 5470,
+      "packaged_sha256": "ec7902447b13be2dbb28d59e43a4412769621413b51f5302ce8da4768a248752",
+      "packaged_bytes": 5471,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/fix_in_frame_stop_codon_genes.py",
+      "original_sha256": "27306a2be617f27d4fa219046d205734f44c9af9abb0f27a303ca263f31094df",
+      "original_bytes": 39696,
+      "packaged_sha256": "7fd6251357f5f686dfa5e7a008767bbb9d3b386b6d63fc9d915fd702caf060f0",
+      "packaged_bytes": 39697,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/gene_set_statistics.py",
+      "original_sha256": "35aacf4fb1575a9531b0412f4151dacb83fe20b722024a2fc462a43c6e6099df",
+      "original_bytes": 16566,
+      "packaged_sha256": "d046686d41c325ff07574280d02a3ac53f9fbe300e85290c5df4ec93f7ae6fc9",
+      "packaged_bytes": 16567,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/gene_support_summary.py",
+      "original_sha256": "38c51ba3a48585e3b3d094aa76e3453dfa7ba4860e537d9da2b0fb2345117908",
+      "original_bytes": 11835,
+      "packaged_sha256": "135263b9de743e5cc82ebd8767a77e713f969dbd09d74f9177bb2dc956e6f184",
+      "packaged_bytes": 11836,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/generate_report.py",
+      "original_sha256": "2f85646bebbcc0a287738c74cec6a39fb5d26bebdf01ad354f11981079efda8b",
+      "original_bytes": 63120,
+      "packaged_sha256": "7db923f8d4e77250325487f771aa9bcadaf4e6c3cd5933aae826ff80db894af9",
+      "packaged_bytes": 63121,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/getAnnoFastaFromJoingenes.py",
+      "original_sha256": "012c20dd8d66f5fd6a2fb85f3be8917f8f9910dc54121229b0712c421dfae0ed",
+      "original_bytes": 12288,
+      "packaged_sha256": "2a1fd8359e19cf2735584553fccd4c14e3c75057ce14338676473c2e10d891bd",
+      "packaged_bytes": 12289,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/normalize_gtf.py",
+      "original_sha256": "8733e622a1de5b7ac793245c754797a9519cbb3f5cae99d18ad00561a3462b12",
+      "original_bytes": 11115,
+      "packaged_sha256": "b112dbd459a2e8ff8566db9bbbc0a1f58697bef9f8e6e95e4b90719ec011aefd",
+      "packaged_bytes": 11116,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/report_citations.sh",
+      "original_sha256": "5836345723b79fb4548aff3a80fd74152a374bbf20b9c44bf30cac7c550dac5c",
+      "original_bytes": 26474,
+      "packaged_sha256": "653cf820809d14c8f167d36e3174f3036610c4b1f54b2a4978c2b7329be86304",
+      "packaged_bytes": 26475,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/stringtie2utr.py",
+      "original_sha256": "85e4f0c1b00721995a209f506843f2b12b30fad71beaed9400f36295f44c96e7",
+      "original_bytes": 35663,
+      "packaged_sha256": "cd2282fe5a25b20173714e94f0db17b4fd704251aaf7e8a105f053252ec934c8",
+      "packaged_bytes": 35664,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/scripts/training_summary.py",
+      "original_sha256": "988caf32920384d7ad5f6fb925bcc8a381f0f90e166d0a2ea4b06e611ad16220",
+      "original_bytes": 12394,
+      "packaged_sha256": "9cc942d9e15040672ffe83aa7b6c082767111927bc44b4308c9694836881d0cd",
+      "packaged_bytes": 12395,
+      "adaptation": "LF text normalization / trailing newline only"
+    },
+    {
+      "path": "workflow/Snakefile",
+      "original_sha256": "4ea69a64292b30ee00f99f9f14fea1137eba4f518a517a97defa2b614d95d105",
+      "original_bytes": 31538,
+      "packaged_sha256": "37f66ea65becf1ebd2a9b677cc74368c6bec1e7b4ad3eac84b8d58276054c6ab",
+      "packaged_bytes": 31539,
+      "adaptation": "LF text normalization / trailing newline only"
+    }
+  ]
+}

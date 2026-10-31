@@ -1,0 +1,291 @@
+"""
+Optional functional annotation of BRAKER4 predicted proteins with FANTASIA-Lite
+(V1).
+
+FANTASIA-Lite assigns GO terms to each predicted protein using ProtT5
+(prot_t5_xl_uniref50) protein language model embeddings and an external lookup
+bundle (lookup_table.npz, annotations.json, accessions.json) that is
+bind-mounted at runtime from fantasia.lookup_dir -- it is NOT baked into the
+container.  Download the bundle from Zenodo record 17720428 and set lookup_dir
+in [fantasia] before enabling this step.
+
+This step is OFF BY DEFAULT and is the most fragile component of BRAKER4:
+the FANTASIA-Lite container hard-requires an NVIDIA GPU with --nv. The
+embedding step has only been validated on an A100 here. CPU-only execution is
+not supported by the upstream container. See README.md (run_fantasia section)
+for the warnings.
+
+The container, the singularity invocation, and the FANTASIA-Lite CLI flags
+mirror the validated invocation from the EukAssembly-Bin (BOUDICCA) workflow,
+which has gone through extensive debugging on Hoff lab GPUs. Do not change
+those flags casually.
+
+Two rules:
+    - fantasia_annotate:  GPU embedding + GO lookup, produces results.csv
+    - fantasia_summarize: parses results.csv, writes summary.txt + GO bar plot
+"""
+
+
+FANTASIA_SIF        = config['fantasia']['sif']
+FANTASIA_HF_CACHE   = config['fantasia']['hf_cache_dir']
+FANTASIA_LOOKUP_DIR = config['fantasia']['lookup_dir']
+FANTASIA_ADD_PARAMS = config['fantasia'].get('additional_params', '') or ''
+FANTASIA_MIN_SCORE  = float(config['fantasia'].get('min_score', 0.5))
+
+
+rule fantasia_annotate:
+    """Embed proteins with ProtT5 and assign GO terms via FANTASIA-Lite (GPU)."""
+    input:
+        proteins="output/{sample}/braker.aa"
+    output:
+        results="output/{sample}/fantasia/results.csv",
+        done="output/{sample}/fantasia/.fantasia_done"
+    log:
+        "logs/{sample}/fantasia/fantasia_annotate.log"
+    benchmark:
+        "benchmarks/{sample}/fantasia/fantasia_annotate.txt"
+    params:
+        sif=FANTASIA_SIF,
+        hf_cache=FANTASIA_HF_CACHE,
+        lookup_dir=FANTASIA_LOOKUP_DIR,
+        add_params=FANTASIA_ADD_PARAMS,
+        outdir=lambda wc: f"output/{wc.sample}/fantasia"
+    threads:
+        int(config['fantasia'].get('cpus_per_task', config['slurm_args']['cpus_per_task']))
+    resources:
+        # GPU resource hints. These only matter when running under --executor slurm;
+        # local runs ignore them. The defaults fall back to the regular SLURM_ARGS
+        # if no GPU section is configured, so the rule still validates on local runs.
+        mem_mb=int(config['fantasia'].get('mem_mb', config['slurm_args']['mem_of_node'])),
+        runtime=int(config['fantasia'].get('max_runtime', config['slurm_args']['max_runtime'])),
+        slurm_partition=config['fantasia'].get('partition', ''),
+        gres="gpu:" + str(config['fantasia'].get('gpus', 1))
+    shell:
+        r"""
+        set -euo pipefail
+
+        # Fail fast on CPU-only hosts. The `gres=gpu:N` and `slurm_partition`
+        # resource hints above are only honored by snakemake's SLURM executor;
+        # with a local executor they are silently dropped and the rule would
+        # otherwise start ProtT5 with --device cuda on a CPU node and crash
+        # mid-run. Check nvidia-smi up front so the error is clear and cheap.
+        if ! command -v nvidia-smi >/dev/null 2>&1 || ! nvidia-smi -L >/dev/null 2>&1; then
+            echo "[ERROR] FANTASIA-Lite requires a CUDA GPU but no nvidia-smi / no visible GPU was found on $(hostname)." >&2
+            echo "[ERROR] Either run snakemake with --executor slurm and a GPU partition configured in [fantasia] partition/gpus," >&2
+            echo "[ERROR] submit your driver job to a GPU node, or set run_fantasia = 0 / BRAKER4_RUN_FANTASIA=0." >&2
+            exit 1
+        fi
+
+        mkdir -p {params.outdir}
+        OUTDIR=$(readlink -f {params.outdir})
+        PROTEINS=$(readlink -f {input.proteins})
+
+        # SIGBUS root cause: safetensors mmap's the model file; CUDA async H2D
+        # copies from mmap-backed pages fail with SIGBUS when the kernel refuses
+        # to pin them inside the Singularity cgroup (reproducible on PyTorch 2.11,
+        # safetensors 0.7.0, regardless of whether the file is on NFS or /dev/shm).
+        #
+        # Fix (mirrors the working BOUDICCA / Nextflow_Tiberius_FANTASIA approach):
+        # load from the snapshot that contains pytorch_model.bin.  torch.load()
+        # uses buffered Python file I/O → data lands in anonymous heap RAM → no
+        # mmap → CUDA DMA works without issue.  We bypass HF Hub cache-lookup
+        # entirely by pointing our patched generate_embeddings.py at the snapshot
+        # directory via BRAKER4_HF_MODEL_PATH (see scripts/generate_embeddings.py).
+        # This also sidesteps the SINGULARITYENV_* propagation problems seen with
+        # HF_HOME on this cluster.
+
+        HF_SRC="{params.hf_cache}/hub/models--Rostlab--prot_t5_xl_uniref50"
+
+        # Prefer the snapshot that carries pytorch_model.bin (torch.load, no mmap).
+        # Fall back to refs/main only when no pytorch snapshot exists (safetensors-
+        # only caches may trigger SIGBUS on some cluster/Singularity configs).
+        SNAPSHOT_DIR=$(find "$HF_SRC/snapshots" -maxdepth 2 \
+            -name "pytorch_model.bin" 2>/dev/null \
+            | head -1 | xargs -r dirname)
+
+        if [ -n "$SNAPSHOT_DIR" ]; then
+            echo "[$(date)] Using pytorch format: $SNAPSHOT_DIR" >> {log}
+        else
+            PYTORCH_REV=$(cat "$HF_SRC/refs/main" 2>/dev/null | tr -d '[:space:]')
+            if [ -z "$PYTORCH_REV" ]; then
+                echo "[$(date)] FATAL: no pytorch_model.bin and no refs/main in $HF_SRC" >> {log}
+                exit 1
+            fi
+            SNAPSHOT_DIR="$HF_SRC/snapshots/$PYTORCH_REV"
+            echo "[$(date)] WARNING: no pytorch_model.bin found; falling back to safetensors in $(basename "$SNAPSHOT_DIR")" >> {log}
+        fi
+        echo "[$(date)] BRAKER4_HF_MODEL_PATH=$SNAPSHOT_DIR" >> {log}
+        ls "$SNAPSHOT_DIR" >> {log} 2>&1
+
+        echo "[$(date)] Running FANTASIA-Lite on $PROTEINS" >> {log}
+        nProteins=$(grep -c '^>' "$PROTEINS" || echo 0)
+        echo "[$(date)] Input proteins: $nProteins" >> {log}
+
+        # SLURM sets CUDA_VISIBLE_DEVICES when the gres binding plugin is active.
+        # On clusters where it sets SLURM_JOB_GPUS instead, copy it into CVD so
+        # the container targets the correct allocated GPU rather than defaulting to 0.
+        # Capture into plain bash vars. Snakemake's format engine only touches
+        # single-brace tokens, so plain $VAR refs are safe; double-brace expansions
+        # become single-brace after Snakemake formatting, which bash then expands.
+        CVD=${{CUDA_VISIBLE_DEVICES:-}}
+        JOB_GPUS=${{SLURM_JOB_GPUS:-}}
+        if [ -n "$JOB_GPUS" ] && [ -z "$CVD" ]; then
+            export CUDA_VISIBLE_DEVICES=$JOB_GPUS
+            CVD=$JOB_GPUS
+            echo "[$(date)] Derived CUDA_VISIBLE_DEVICES=$CVD from SLURM_JOB_GPUS" >> {log}
+        fi
+        echo "[$(date)] CUDA_VISIBLE_DEVICES=$CVD  SLURM_JOB_GPUS=$JOB_GPUS" >> {log}
+        nvidia-smi --query-gpu=index,memory.free,memory.used --format=csv >> {log} 2>&1 || true
+
+        # ProtT5-XL needs ~14 GB VRAM.  Fail fast if the assigned GPU
+        # (first index in CVD, or 0 if unset) is too full.
+        if [ -n "$CVD" ]; then
+            GPU_IDX=$(echo "$CVD" | cut -d, -f1)
+        else
+            GPU_IDX=0
+        fi
+        FREE_MIB=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits \
+            -i "$GPU_IDX" 2>/dev/null | tr -d ' ' || echo 0)
+        echo "[$(date)] Physical GPU $GPU_IDX (cuda:0): $FREE_MIB MiB free" >> {log}
+        if [ "$FREE_MIB" -lt 15000 ] 2>/dev/null; then
+            echo "[ERROR] GPU $GPU_IDX has only $FREE_MIB MiB free; ProtT5-XL needs >=15000 MiB." >&2
+            echo "[ERROR] SLURM_JOB_GPUS=$JOB_GPUS  CUDA_VISIBLE_DEVICES=$CVD" >&2
+            echo "[ERROR] Resubmit or ask cluster admin to enable GPU cgroup isolation." >&2
+            exit 1
+        fi
+
+        # Bind-mount patched generate_embeddings.py (scripts/generate_embeddings.py)
+        # over the container's copy.  The patch reads BRAKER4_HF_MODEL_PATH and
+        # passes it directly to AutoTokenizer/AutoModel.from_pretrained(), bypassing
+        # all HF Hub cache-lookup machinery.  The env command inside the container
+        # guarantees the variable is set for the Python process regardless of how the
+        # cluster admin has configured SINGULARITYENV_* propagation.
+        # Also bind-mount the entire hf_cache directory so the symlinks in the
+        # snapshot (which resolve to ../../blobs/…) are accessible inside the container.
+        PATCHED_EMBED="{script_dir}/generate_embeddings.py"
+        singularity exec --nv \
+            -B "$PWD":"$PWD" \
+            -B "{params.hf_cache}":"{params.hf_cache}":ro \
+            -B "{params.lookup_dir}":"{params.lookup_dir}" \
+            -B "$PATCHED_EMBED":/opt/fantasia-lite/src/generate_embeddings.py:ro \
+            "{params.sif}" \
+            env \
+                BRAKER4_HF_MODEL_PATH="$SNAPSHOT_DIR" \
+                TRANSFORMERS_OFFLINE=1 \
+                HF_HUB_OFFLINE=1 \
+            python3 /opt/fantasia-lite/src/fantasia_pipeline.py \
+                --serial-models \
+                --embed-models prot_t5 \
+                --device cuda \
+                --venv-dir /opt/venv \
+                --lookup-npz "{params.lookup_dir}/lookup_table.npz" \
+                --annotations-json "{params.lookup_dir}/annotations.json" \
+                --accessions-json "{params.lookup_dir}/accessions.json" \
+                --embeddings-npz "$OUTDIR/query_embeddings.npz" \
+                --config-yaml "$OUTDIR/fantasia_config.yaml" \
+                --results-csv "$OUTDIR/results.csv" \
+                --topgo \
+                --topgo-dir "$OUTDIR/topgo" \
+                --chunk-dir "$OUTDIR/tmp/fasta_chunks" \
+                --chunk-embed-dir "$OUTDIR/tmp/chunk_embeddings" \
+                --chunk-results-dir "$OUTDIR/tmp/chunk_results" \
+                --chunk-config-dir "$OUTDIR/tmp/chunk_configs" \
+                --chunk-failure-dir "$OUTDIR/tmp/failures" \
+                --failure-report "$OUTDIR/failed_sequences.csv" \
+                {params.add_params} \
+                "$PROTEINS" \
+            >> {log} 2>&1
+
+        echo "[$(date)] FANTASIA-Lite complete" >> {log}
+        touch {output.done}
+
+        # Citations
+        REPORT_DIR=output/{wildcards.sample}
+        source {script_dir}/report_citations.sh
+        cite fantasia "$REPORT_DIR"
+        cite fantasia_methods "$REPORT_DIR"
+
+        # Remove chunk working dirs and the full embedding matrix; results.csv
+        # and topgo/ are kept (copied by collect_results and read by downstream rules).
+        rm -rf "$OUTDIR/tmp" 2>/dev/null || true
+        rm -f  "$OUTDIR/query_embeddings.npz" 2>/dev/null || true
+        """
+
+
+rule fantasia_decorate_gff3:
+    """Add Ontology_term=GO:... attributes to mRNA + gene features in a BRAKER GFF3.
+
+    Wildcard `gff_base` matches `braker` and `braker_with_ncRNA` so the same
+    rule handles both the protein-coding-only GFF3 and the ncRNA-merged GFF3
+    (the latter is only requested when run_ncrna=1). The decorated copy is
+    written alongside the FANTASIA outputs and copied to the top-level results
+    directory by collect_results.
+    """
+    wildcard_constraints:
+        gff_base="braker|braker_with_ncRNA"
+    input:
+        gff3="output/{sample}/{gff_base}.gff3",
+        results="output/{sample}/fantasia/results.csv"
+    output:
+        decorated="output/{sample}/fantasia/{gff_base}.go.gff3"
+    log:
+        "logs/{sample}/fantasia/fantasia_decorate_{gff_base}.log"
+    benchmark:
+        "benchmarks/{sample}/fantasia/fantasia_decorate_{gff_base}.txt"
+    params:
+        min_score=FANTASIA_MIN_SCORE
+    threads: 1
+    resources:
+        mem_mb=0 if config['slurm_args'].get('skip_mem') else 2000,
+        runtime=10
+    container:
+        BRAKER3_CONTAINER
+    shell:
+        r"""
+        set -euo pipefail
+        export PATH=/opt/conda/bin:$PATH
+        export PYTHONNOUSERSITE=1
+
+        python3 {script_dir}/fantasia_decorate_gff3.py \
+            --gff3-in   {input.gff3} \
+            --gff3-out  {output.decorated} \
+            --results   {input.results} \
+            --min-score {params.min_score} \
+            > {log} 2>&1
+        """
+
+
+rule fantasia_summarize:
+    """Parse FANTASIA-Lite results.csv into a summary text and a GO namespace bar plot."""
+    input:
+        results="output/{sample}/fantasia/results.csv"
+    output:
+        summary="output/{sample}/fantasia/fantasia_summary.txt",
+        plot="output/{sample}/fantasia/fantasia_go_categories.png",
+        go_terms="output/{sample}/fantasia/fantasia_go_terms.tsv"
+    log:
+        "logs/{sample}/fantasia/fantasia_summarize.log"
+    benchmark:
+        "benchmarks/{sample}/fantasia/fantasia_summarize.txt"
+    params:
+        outdir=lambda wc: f"output/{wc.sample}/fantasia",
+        min_score=FANTASIA_MIN_SCORE
+    threads: 1
+    resources:
+        mem_mb=0 if config['slurm_args'].get('skip_mem') else 2000,
+        runtime=10
+    container:
+        BRAKER3_CONTAINER
+    shell:
+        r"""
+        set -euo pipefail
+        export PATH=/opt/conda/bin:$PATH
+        export PYTHONNOUSERSITE=1
+
+        python3 {script_dir}/fantasia_summary.py \
+            --results {input.results} \
+            --out-dir {params.outdir} \
+            --min-score {params.min_score} \
+            > {log} 2>&1
+        """
+

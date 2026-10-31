@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "Please cite the underlying methods listed in docs/CITATIONS.md and identify the wrapper release/commit."
+title: "gene-annotation-v1: arachnid EP/ETP annotation and threshold-panel orchestration"
+type: software
+authors:
+  - name: "veryxing565"
+version: 1.0.0rc1
+date-released: 2026-10-31
+url: "https://github.com/veryxing565/gene-annotation-v1"
+repository-code: "https://github.com/veryxing565/gene-annotation-v1"
+license: MIT

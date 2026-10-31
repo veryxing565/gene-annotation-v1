@@ -1,0 +1,3 @@
+# Host controller/parser dependencies, not a complete prediction environment.
+snakemake==8.18.2
+pandas>=2.0.2,<3

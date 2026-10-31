@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-31",
+  "platform": "Linux x86-64",
+  "python": "3.11.15",
+  "snakemake": "8.18.2",
+  "unittest": {
+    "status": "passed",
+    "test_count": 32,
+    "skipped": 0,
+    "external_biological_tools": "mocked; real public driver/core/filter logic exercised"
+  },
+  "dag_checks": [
+    {"mode": "ep", "returncode": 0},
+    {"mode": "etp", "returncode": 0}
+  ],
+  "scope": "Software tests and actual Snakemake DAG construction. No new biological end-to-end benchmark or accuracy claim. No production annotation jobs changed."
+}

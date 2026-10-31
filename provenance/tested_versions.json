@@ -1,0 +1,37 @@
+{
+  "recorded_from_deployment": "2026-10-30",
+  "wrapper_release": "1.0.0rc1",
+  "host": {
+    "python": "3.11.15",
+    "snakemake": "8.18.2",
+    "apptainer": "1.5.2",
+    "fastp": "0.23.3",
+    "independent_protein_compleasm": "0.2.9"
+  },
+  "frontend": {
+    "project": "BRAKER4",
+    "header_version": "0.5.0-beta",
+    "upstream_commit": null,
+    "source_identifier": "source_snapshot.json"
+  },
+  "backend": {
+    "reference": "teambraker/braker3:v3.1.1",
+    "image_digest": null,
+    "AUGUSTUS": "3.5.0 (commit 220e5a6)",
+    "GeneMark-ETP": "1.02 (commit aacc025)",
+    "TSEBRA": "commit 23ef205",
+    "native_compleasm": "0.2.8",
+    "HISAT2": "2.2.1",
+    "StringTie": "2.2.1",
+    "DIAMOND": "2.0.15",
+    "SAMtools": "1.13",
+    "miniprot": "0.12-r237"
+  },
+  "additional_images": {
+    "AGAT": "1.4.1",
+    "BUSCO": "6.1.0; standalone BUSCO QC disabled"
+  },
+  "primary_lineage": "arachnida_odb12.2",
+  "auxiliary_lineage": "arthropoda_odb12.2",
+  "limitations": "Versions identify the recorded setup, not immutable image bytes or a solved environment. No image/dataset is distributed. Native and independent compleasm versions differ intentionally."
+}

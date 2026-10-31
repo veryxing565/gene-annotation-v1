@@ -1,0 +1,3 @@
+run_id	fastq_r1	fastq_r2
+Run_one	/path/to/rna/run_one_1.fastq.gz	/path/to/rna/run_one_2.fastq.gz
+Run_two	/path/to/rna/run_two_1.fastq.gz	/path/to/rna/run_two_2.fastq.gz

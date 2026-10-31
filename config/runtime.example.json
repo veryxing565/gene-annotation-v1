@@ -1,0 +1,30 @@
+{
+  "output_root": "/path/to/project/gene_results",
+  "work_root": "/path/to/local_scratch/gene_work",
+  "threads": 56,
+  "memory_mb": 240000,
+  "rule_memory_mb": 120000,
+  "fastp_threads": 8,
+  "cleanup_work": true,
+  "max_consecutive_failures": 3,
+  "tools": {
+    "snakemake": "/path/to/env/bin/snakemake",
+    "apptainer": "/path/to/env/bin/apptainer",
+    "compleasm": "/path/to/compleasm",
+    "fastp": "/path/to/env/bin/fastp"
+  },
+  "containers": {
+    "braker3_image": "/path/to/images/braker3-v3.1.1.sif",
+    "agat_image": "/path/to/images/agat-1.4.1.sif",
+    "busco_image": "/path/to/images/busco-6.1.0.sif"
+  },
+  "databases": {
+    "compleasm": "/path/to/databases/compleasm",
+    "busco": "/path/to/databases/busco"
+  },
+  "container_cache": "/path/to/cache/snakemake",
+  "apptainer_cache": "/path/to/cache/apptainer",
+  "java_home": "",
+  "min_free_work_gb": 100,
+  "min_free_output_gb": 20
+}

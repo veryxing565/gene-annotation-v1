@@ -1,0 +1,3 @@
+sample_id	mode	genome	protein_fasta	genome_compleasm_summary	rnaseq_manifest
+Example_ETP	etp	/path/to/genomes/example_etp.softmasked.fa	/path/to/reference/reference.faa	/path/to/assessments/example_etp/summary.txt	/path/to/manifests/example_etp.rna.tsv
+Example_EP	ep	/path/to/genomes/example_ep.softmasked.fa	/path/to/reference/reference.faa	/path/to/assessments/example_ep/summary.txt	-
